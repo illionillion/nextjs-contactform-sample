@@ -81,6 +81,7 @@ export default function Home() {
                   {...register('name', {
                     required: '名前を入力してください',
                     minLength: { value: 2, message: '2文字以上は入力してください' },
+                    maxLength: {value: 100, message: '100文字以内にしてください'}
                   })}
                 />
                 <FormErrorMessage>
@@ -100,7 +101,8 @@ export default function Home() {
                     pattern: {
                       value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
                       message: "入力形式がメールアドレスではありません。"
-                    }
+                    },
+                    maxLength: {value: 100, message: '100文字以内にしてください'}
                   })}
                 />
                 <FormErrorMessage>
@@ -116,7 +118,8 @@ export default function Home() {
                       return (
                         value === getValues("email") || "メールアドレスが一致しません"
                       );
-                    }
+                    },
+                    maxLength: {value: 100, message: '100文字以内にしてください'}
                   })}
                 />
                 <FormErrorMessage>
