@@ -48,7 +48,7 @@ export default function Home() {
         body: JSON.stringify(requestData) // JSON形式のデータ
       })
 
-      console.log(request);
+      console.log(await request.json());
       if (request.status === 200) { // 200なら成功
         console.log('成功');
       } else {
