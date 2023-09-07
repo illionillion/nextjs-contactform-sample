@@ -30,11 +30,30 @@ export default function Home() {
     }
   })
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log('onSubmit:', data);
+  const onSubmit: SubmitHandler<Inputs> = async () => {
     // ここで送信の処理
     try {
-      
+
+      const requestData = {
+        name: getValues('name'),
+        email: getValues('email'),
+        content_question: getValues('content_question')
+      }
+
+      const request = await fetch('/api/send', { // 送信先URL
+        method: 'post', // 通信メソッド
+        headers: {
+          'Content-Type': 'application/json' // JSON形式のデータのヘッダー
+        },
+        body: JSON.stringify(requestData) // JSON形式のデータ
+      })
+
+      console.log(request);
+      if (request.status === 200) { // 200なら成功
+        console.log('成功');
+      } else {
+        console.log('失敗・・・？');
+      }
       // 送信できたらリセット
       reset()
       clearErrors()
@@ -109,7 +128,7 @@ export default function Home() {
                 <Textarea id='content_question' placeholder='ご質問内容を入力してください'
                   {...register('content_question', {
                     required: 'ご質問内容を入力してください',
-                    maxLength: {value: 200, message: "200文字を超えています。"}
+                    maxLength: { value: 200, message: "200文字を超えています。" }
                   })}
                 />
                 <FormErrorMessage>
