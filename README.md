@@ -15,6 +15,6 @@ TZ=タイムゾーン
 
 以下のコマンドでコンテナ起動
 
-```
+```bash
 docker compose up -d
 ```
