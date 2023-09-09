@@ -51,12 +51,12 @@ export default function Home() {
       console.log(await request.json());
       if (request.status === 200) { // 200なら成功
         console.log('成功');
+        // 送信できたらリセット
+        reset()
+        clearErrors()
       } else {
         console.log('失敗・・・？');
       }
-      // 送信できたらリセット
-      reset()
-      clearErrors()
     } catch (error) {
       console.log(error);
     }
