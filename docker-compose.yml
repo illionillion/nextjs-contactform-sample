@@ -12,21 +12,21 @@ services:
     ports:
       - 3000:3000
     environment:
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=password
-      - DB_DATABASE=contactform
+      - DB_HOST=${MYSQL_HOST}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_DATABASE=${MYSQL_DATABASE}
     depends_on:
       - mysql
   mysql:
     image: mysql:latest
     restart: always
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:${MYSQL_PORT}
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=contactform
-      - TZ=Asia/Tokyo
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - TZ=${TZ}
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
