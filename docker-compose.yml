@@ -30,3 +30,4 @@ services:
       - TZ=${TZ}
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf # bashで日本語文字化けする問題の解決
