@@ -1,6 +1,7 @@
-import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea } from '@chakra-ui/react'
-import Head from 'next/head'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea } from '@chakra-ui/react';
+import Head from 'next/head';
+import type { SubmitHandler} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 type Inputs = {
   name: string
@@ -20,15 +21,15 @@ export default function Home() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
-    mode: "onBlur",
-    criteriaMode: "all",
+    mode: 'onBlur',
+    criteriaMode: 'all',
     defaultValues: {
-      name: "",
-      email: "",
-      email_confirmation: "",
-      content_question: ""
+      name: '',
+      email: '',
+      email_confirmation: '',
+      content_question: ''
     }
-  })
+  });
 
   const onSubmit: SubmitHandler<Inputs> = async () => {
     // ここで送信の処理
@@ -38,7 +39,7 @@ export default function Home() {
         name: getValues('name'),
         email: getValues('email'),
         content_question: getValues('content_question')
-      }
+      };
 
       const request = await fetch('/api/send', { // 送信先URL
         method: 'post', // 通信メソッド
@@ -46,14 +47,14 @@ export default function Home() {
           'Content-Type': 'application/json' // JSON形式のデータのヘッダー
         },
         body: JSON.stringify(requestData) // JSON形式のデータ
-      })
+      });
 
       console.log(await request.json());
       if (request.status === 200) { // 200なら成功
         console.log('成功');
         // 送信できたらリセット
-        reset()
-        clearErrors()
+        reset();
+        clearErrors();
       } else {
         console.log('失敗・・・？');
       }
@@ -70,9 +71,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container h={'100svh'} py={5}>
+      <Container h="100svh" py={5}>
         <Box>
-          <Heading p={3} textAlign={'center'}>お問合せフォーム</Heading>
+          <Heading p={3} textAlign="center">お問合せフォーム</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl isInvalid={!!errors.name || !!errors.email || !!errors.email_confirmation || !!errors.content_question}>
               <Box py={2}>
@@ -94,13 +95,13 @@ export default function Home() {
                   {...register('email', {
                     required: 'メールアドレスを入力してください',
                     onBlur: () => {
-                      if (getValues("email")) {
-                        trigger("email");
+                      if (getValues('email')) {
+                        trigger('email');
                       }
                     },
                     pattern: {
                       value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
-                      message: "入力形式がメールアドレスではありません。"
+                      message: '入力形式がメールアドレスではありません。'
                     },
                     maxLength: {value: 100, message: '100文字以内にしてください'}
                   })}
@@ -116,7 +117,7 @@ export default function Home() {
                     required: '確認のためにメールアドレスを入力してください',
                     validate: (value) => {
                       return (
-                        value === getValues("email") || "メールアドレスが一致しません"
+                        value === getValues('email') || 'メールアドレスが一致しません'
                       );
                     },
                     maxLength: {value: 100, message: '100文字以内にしてください'}
@@ -131,7 +132,7 @@ export default function Home() {
                 <Textarea id='content_question' placeholder='ご質問内容を入力してください'
                   {...register('content_question', {
                     required: 'ご質問内容を入力してください',
-                    maxLength: { value: 200, message: "200文字を超えています。" }
+                    maxLength: { value: 200, message: '200文字を超えています。' }
                   })}
                 />
                 <FormErrorMessage>
@@ -146,5 +147,5 @@ export default function Home() {
         </Box>
       </Container>
     </>
-  )
+  );
 }
