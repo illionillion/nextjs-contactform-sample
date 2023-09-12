@@ -13,6 +13,12 @@ MYSQL_DATABASE=DB名
 TZ=タイムゾーン
 ```
 
+ビルド
+
+```bash
+docker compose build
+```
+
 インストール
 
 ```bash
