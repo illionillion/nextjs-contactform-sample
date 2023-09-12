@@ -13,6 +13,12 @@ MYSQL_DATABASE=DB名
 TZ=タイムゾーン
 ```
 
+インストール
+
+```bash
+docker compose run --rm nextjs-app npm i
+```
+
 以下のコマンドでコンテナ起動
 
 ```bash
