@@ -23,6 +23,7 @@ docker compose build
 
 ```bash
 docker compose run --rm nextjs-app npm i
+docker compose run --rm express-server npm i
 ```
 
 以下のコマンドでコンテナ起動
