@@ -1,16 +1,17 @@
 import type { FormContent } from '@/lib/@types/form-content';
-import { ClientToServerEvents, ServerToClientEvents } from '@/lib/@types/models';
+import type { ClientToServerEvents, ServerToClientEvents } from '@/lib/@types/models';
 import { Box, Heading, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { Socket, io } from 'socket.io-client';
+import type { Socket} from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const FormContents: NextPage = () => {
 
   const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
     // サーバーのURLを指定
-    "http://localhost:3001"
+    'http://localhost:3001'
   );
 
   const [contents, setContents] = useState<FormContent[]>([]);
@@ -19,17 +20,17 @@ const FormContents: NextPage = () => {
     const req = await fetch('/api/form-contents');
     const { contents } = await req.json();
     setContents(contents);
-  }
+  };
 
   // なぜか動かない
   socket.on('sync', () => {
     console.log('sync');
-    fetching()
-  })
+    fetching();
+  });
   useEffect(() => {
     (() => {
-      fetching()
-    })()
+      fetching();
+    })();
   }, []);
 
 
