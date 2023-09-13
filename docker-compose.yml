@@ -19,6 +19,14 @@ services:
       - DB_DATABASE=${MYSQL_DATABASE}
     depends_on:
       - mysql
+  express-server:
+    build: .
+    volumes: 
+      - ./server:/app
+    command: sh -c "npm run dev"
+    tty: true
+    ports:
+      - "3001:3001"
   mysql:
     image: mysql:latest
     restart: always
