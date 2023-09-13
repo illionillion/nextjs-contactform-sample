@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 
   socket.on("onSubmit", () => {
     console.log(`from client: onSubmit`);
-    socket.emit("sync");
+    io.emit("sync");
   });
 
   // 切断イベント受信
