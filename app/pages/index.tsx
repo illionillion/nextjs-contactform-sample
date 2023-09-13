@@ -39,14 +39,6 @@ export default function Home() {
     'http://localhost:3001'
   );
 
-  // ここのは動く
-  socket.on('sync', async () => {
-    console.log('sync');
-    const req = await fetch('/api/form-contents');
-    const { contents } = await req.json();
-    console.log(contents);
-  });
-
   const onSubmit: SubmitHandler<Inputs> = async () => {
     // ここで送信の処理
     try {

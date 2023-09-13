@@ -19,10 +19,9 @@ const FormContents: NextPage = () => {
   const fetching = async () => {
     const req = await fetch('/api/form-contents');
     const { contents } = await req.json();
-    setContents(contents);
+    setContents(contents as FormContent[]);
   };
 
-  // なぜか動かない
   socket.on('sync', () => {
     console.log('sync');
     fetching();
