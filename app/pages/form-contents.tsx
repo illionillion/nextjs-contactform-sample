@@ -28,8 +28,6 @@ const FormContents: NextPage = () => {
         console.log('sync');
         fetching();
       });
-  useEffect(() => {
-    (() => {
       fetching();
     })();
   }, []);
@@ -56,7 +54,7 @@ const FormContents: NextPage = () => {
         </Thead>
         <Tbody>
           {
-            contents.map((item, index) => (
+            contents.length > 0 && contents.map((item, index) => (
               <Tr key={index}>
                 <Td>{item.id}</Td>
                 <Td>{item.name}</Td>
