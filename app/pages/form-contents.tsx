@@ -22,10 +22,12 @@ const FormContents: NextPage = () => {
     setContents(contents as FormContent[]);
   };
 
-  socket.on('sync', () => {
-    console.log('sync');
-    fetching();
-  });
+  useEffect(() => {
+    (() => {
+      socket.on('sync', () => {
+        console.log('sync');
+        fetching();
+      });
   useEffect(() => {
     (() => {
       fetching();
