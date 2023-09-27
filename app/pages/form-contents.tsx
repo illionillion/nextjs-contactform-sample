@@ -1,25 +1,29 @@
 import type { FormContent } from '@/lib/@types/form-content';
 import type { ClientToServerEvents, ServerToClientEvents } from '@/lib/@types/models';
 import { Box, Heading, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import type { NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import type { Socket} from 'socket.io-client';
+import type { Socket } from 'socket.io-client';
 import { io } from 'socket.io-client';
 
-const FormContents: NextPage = () => {
+interface FormContentsProps {
+  contents: FormContent[]
+}
+
+const FormContents: NextPage<FormContentsProps> = ({ contents : staticContents }) => {
 
   const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
     // サーバーのURLを指定
     'http://localhost:3001'
   );
 
-  const [contents, setContents] = useState<FormContent[]>([]);
+  const [contents, setContents] = useState<FormContent[]>(staticContents);
 
   const fetching = async () => {
     const req = await fetch('/api/form-contents');
     const { contents } = await req.json();
-    setContents(contents as FormContent[]);
+    setContents((contents ?? []) as FormContent[]);
   };
 
   useEffect(() => {
@@ -68,6 +72,29 @@ const FormContents: NextPage = () => {
       </Table>
     </Box>
   </>;
+};
+
+export const getStaticProps: GetStaticProps<FormContentsProps> = async () => {
+
+  try {
+    
+    const req = await fetch('http://localhost:3000/api/form-contents');
+    const { contents } = await req.json();
+  
+    return {
+      props: {
+        contents: contents ?? [],
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    
+    return {
+      props: {
+        contents: [],
+      },
+    };
+  }
 };
 
 export default FormContents;
