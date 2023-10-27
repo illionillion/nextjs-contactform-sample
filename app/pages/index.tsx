@@ -36,7 +36,10 @@ export default function Home() {
 
   const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
     // サーバーのURLを指定
-    'http://localhost:3001'
+    'http://localhost:3000',
+    {
+      path: '/api/socketio'
+    }
   );
 
   const onSubmit: SubmitHandler<Inputs> = async () => {

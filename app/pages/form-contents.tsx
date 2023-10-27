@@ -15,7 +15,11 @@ const FormContents: NextPage<FormContentsProps> = ({ contents : staticContents }
 
   const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
     // サーバーのURLを指定
-    'http://localhost:3001'
+    // 'http://localhost:3001'
+    'http://localhost:3000',
+    {
+      path: '/api/socketio'
+    }
   );
 
   const [contents, setContents] = useState<FormContent[]>(staticContents);
