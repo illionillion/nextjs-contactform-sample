@@ -1,4 +1,4 @@
-import handler from "../pages/api/hello";
+import handler from "@/pages/api/hello";
 import http, { IncomingMessage, ServerResponse } from "http";
 import { apiResolver } from "next/dist/server/api-utils/node";
 import request from "supertest";
