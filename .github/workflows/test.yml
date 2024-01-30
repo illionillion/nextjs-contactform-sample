@@ -57,7 +57,7 @@ jobs:
       
       - name: Show DB
         run: |
-          docker exec -it mysql sh
+          docker exec -it mysql bash
           mysql -u root -ppassword
           use my_db;
           select * from contact_table;
