@@ -36,14 +36,24 @@ jobs:
 
       - name: node_modules install
         run: |
-          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
-          cat .env
           docker compose run --rm nextjs-app npm i
-      
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
       - name: Compose up
         run: |
-          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
           docker compose up -d
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
       
       - name: Show DB
         run: |
