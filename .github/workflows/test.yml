@@ -1,0 +1,84 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# ESLint is a tool for identifying and reporting on patterns
+# found in ECMAScript/JavaScript code.
+# More details at https://github.com/eslint/eslint
+# and https://eslint.org
+
+name: Run Test on Docker
+
+on:
+  push:
+    branches: [ "main", "dev", "ci-test" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main", "dev", "ci-test" ]
+  schedule:
+    - cron: '26 15 * * 1'
+
+jobs:
+  test:
+    name: Run Test on Docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # - name: Setting Env
+      #   run: |
+      #     echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
+
+      - name: node_modules install
+        run: |
+          docker compose run --rm nextjs-app npm i
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
+      - name: Compose up
+        run: |
+          docker compose up -d
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
+      
+      # - name: Show DB Status
+      #   run: |
+      #     docker-compose logs mysql
+      # - name: Show DB
+      #   run: |
+      #     docker exec -it mysql bash
+      #     mysql -u root -ppassword
+      #     use my_db;
+      #     select * from contact_table;
+      
+      - name: Show ps
+        run: |
+          docker ps
+      
+      - name: Start Test
+        run: |
+          docker compose run --rm nextjs-app npm run test
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
+      # - name: Run ESLint
+      #   run: npm run lint
+      #   continue-on-error: false

@@ -1,6 +1,7 @@
 version: '3'
 services:
   nextjs-app:
+    container_name: nextjs-app
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,6 +21,7 @@ services:
     depends_on:
       - mysql
   express-server:
+    container_name: express-server
     build: .
     volumes: 
       - ./server:/app
@@ -28,6 +30,7 @@ services:
     ports:
       - "3001:3001"
   mysql:
+    container_name: mysql
     image: mysql:latest
     restart: always
     ports:
