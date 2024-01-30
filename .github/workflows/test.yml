@@ -30,17 +30,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setting Env
-        run: |
-          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo"  >> $GITHUB_ENV
+      # - name: Setting Env
+      #   run: |
+      #     echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
 
       - name: node_modules install
         run: |
-          echo "MYSQL_PORT= $MYSQL_PORT"
+          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
           docker compose run --rm nextjs-app npm i
       
       - name: Compose up
-        run: docker compose up -d
+        run: |
+          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
+          docker compose up -d
       
       - name: Show DB
         run: |
