@@ -55,16 +55,6 @@ jobs:
           MYSQL_DATABASE: contactform
           TZ: Asia/Tokyo
       
-      # - name: Show DB Status
-      #   run: |
-      #     docker-compose logs mysql
-      # - name: Show DB
-      #   run: |
-      #     docker exec -it mysql bash
-      #     mysql -u root -ppassword
-      #     use my_db;
-      #     select * from contact_table;
-      
       - name: Show ps
         run: |
           docker ps
@@ -79,6 +69,7 @@ jobs:
           MYSQL_PASSWORD: password
           MYSQL_DATABASE: contactform
           TZ: Asia/Tokyo
-      # - name: Run ESLint
-      #   run: npm run lint
-      #   continue-on-error: false
+
+      - name: Check DB
+        run: |
+          curl http://localhost:3000/api/form-contents
