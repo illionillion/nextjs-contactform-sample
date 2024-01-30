@@ -55,6 +55,9 @@ jobs:
           MYSQL_DATABASE: contactform
           TZ: Asia/Tokyo
       
+      - name: Show DB Status
+        run: |
+          docker-compose logs mysql
       # - name: Show DB
       #   run: |
       #     docker exec -it mysql bash
