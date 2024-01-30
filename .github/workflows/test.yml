@@ -72,7 +72,13 @@ jobs:
       - name: Start Test
         run: |
           docker compose run --rm nextjs-app npm run test
-
+        env: 
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PORT: 3306
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: contactform
+          TZ: Asia/Tokyo
       # - name: Run ESLint
       #   run: npm run lint
       #   continue-on-error: false
