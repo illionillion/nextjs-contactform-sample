@@ -32,7 +32,7 @@ jobs:
 
       - name: Setting Env
         run: |
-          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo" > .env
+          echo "MYSQL_HOST=mysql\nMYSQL_USER=root\nMYSQL_PORT=3306\nMYSQL_PASSWORD=password\nMYSQL_DATABASE=contactform\nTZ=Asia/Tokyo"  >> $GITHUB_ENV
 
       - name: node_modules install
         run: docker compose run --rm nextjs-app npm i
