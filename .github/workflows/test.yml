@@ -71,7 +71,7 @@ jobs:
       
       - name: Start Test
         run: |
-          npm run test
+          docker compose run --rm nextjs-app npm run test
 
       # - name: Run ESLint
       #   run: npm run lint
