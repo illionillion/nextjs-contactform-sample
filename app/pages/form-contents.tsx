@@ -11,12 +11,9 @@ interface FormContentsProps {
   contents: FormContent[]
 }
 
-const FormContents: NextPage<FormContentsProps> = ({ contents : staticContents }) => {
+const FormContents: NextPage<FormContentsProps> = ({ contents: staticContents }) => {
 
-  const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-    // サーバーのURLを指定
-    'http://localhost:3001'
-  );
+  const socket = io({ autoConnect: false });
 
   const [contents, setContents] = useState<FormContent[]>(staticContents);
 
@@ -26,16 +23,30 @@ const FormContents: NextPage<FormContentsProps> = ({ contents : staticContents }
     setContents((contents ?? []) as FormContent[]);
   };
 
+  // １回だけ実行
   useEffect(() => {
-    (() => {
-      socket.on('sync', () => {
-        console.log('sync');
+    // socket.ioサーバを起動するapiを実行
+    fetch("/api/socketio", { method: "POST" })
+      .then(() => {
+        // 既に接続済だったら何もしない
+        if (socket.connected) {
+          return;
+        }
+        // socket.ioサーバに接続
+        socket.connect();
+        socket.on('sync', () => {
+          console.log('sync');
+          fetching();
+        });
         fetching();
-      });
-      fetching();
-    })();
-  }, []);
+      })
 
+    return () => {
+      // 登録したイベントは全てクリーンアップ
+      socket.off("connect")
+      socket.off("msg")
+    }
+  }, [])
 
   return <>
     <Head>
@@ -77,10 +88,10 @@ const FormContents: NextPage<FormContentsProps> = ({ contents : staticContents }
 export const getStaticProps: GetStaticProps<FormContentsProps> = async () => {
 
   try {
-    
+
     const req = await fetch('http://localhost:3000/api/form-contents');
     const { contents } = await req.json();
-  
+
     return {
       props: {
         contents: contents ?? [],
@@ -88,7 +99,7 @@ export const getStaticProps: GetStaticProps<FormContentsProps> = async () => {
     };
   } catch (error) {
     console.log(error);
-    
+
     return {
       props: {
         contents: [],
