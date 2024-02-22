@@ -1,9 +1,7 @@
-import type { ClientToServerEvents, ServerToClientEvents } from '@/lib/@types/models';
 import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea } from '@chakra-ui/react';
 import Head from 'next/head';
 import type { SubmitHandler} from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import type { Socket} from 'socket.io-client';
 import { io } from 'socket.io-client';
 
 type Inputs = {
@@ -34,13 +32,7 @@ export default function Home() {
     }
   });
 
-  const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-    // サーバーのURLを指定
-    'http://localhost:3000',
-    {
-      path: '/api/socketio'
-    }
-  );
+  const socket = io({ autoConnect: false });
 
   const onSubmit: SubmitHandler<Inputs> = async () => {
     // ここで送信の処理
@@ -66,6 +58,14 @@ export default function Home() {
         // 送信できたらリセット
         reset();
         clearErrors();
+        // socket.emit('onSubmit'); // 送信
+        await fetch("/api/socketio", { method: "POST" })
+        // 既に接続済だったら何もしない
+        if (socket.connected) {
+          return;
+        }
+        // socket.ioサーバに接続
+        socket.connect();
         socket.emit('onSubmit'); // 送信
       } else {
         console.log('失敗・・・？');
