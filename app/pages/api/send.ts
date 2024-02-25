@@ -6,8 +6,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
+    let connection;
     try {
-      const connection = await mysql_connection();
+      connection = await mysql_connection();
 
       const query = 'INSERT INTO contact_table (name, email, content_question) VALUES (?, ?, ?)';
       await connection.execute(query, [
@@ -19,6 +20,8 @@ export default async function handler(
       res.status(200).json({ message: '送信に成功しました。' });
     } catch (error) {
       res.status(500).json({ message: '送信に失敗しました。', error: error });
+    } finally {
+      if(connection) connection.end();
     }
   } else {
     res
