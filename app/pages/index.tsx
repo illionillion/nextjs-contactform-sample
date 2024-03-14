@@ -59,7 +59,7 @@ export default function Home() {
         reset();
         clearErrors();
         // socket.emit('onSubmit'); // 送信
-        await fetch("/api/socketio", { method: "POST" })
+        await fetch('/api/socketio', { method: 'POST' });
         // 既に接続済だったら何もしない
         if (socket.connected) {
           return;

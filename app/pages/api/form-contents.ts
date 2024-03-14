@@ -17,6 +17,6 @@ export default async function handler(
       error: error,
     });
   } finally {
-    if(connection) connection.end()
+    if(connection) connection.end();
   }
 }

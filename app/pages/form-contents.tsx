@@ -1,10 +1,8 @@
 import type { FormContent } from '@/lib/@types/form-content';
-import type { ClientToServerEvents, ServerToClientEvents } from '@/lib/@types/models';
 import { Box, Heading, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import type { Socket } from 'socket.io-client';
 import { io } from 'socket.io-client';
 
 interface FormContentsProps {
@@ -26,7 +24,7 @@ const FormContents: NextPage<FormContentsProps> = ({ contents: staticContents })
   // １回だけ実行
   useEffect(() => {
     // socket.ioサーバを起動するapiを実行
-    fetch("/api/socketio", { method: "POST" })
+    fetch('/api/socketio', { method: 'POST' })
       .then(() => {
         // 既に接続済だったら何もしない
         if (socket.connected) {
@@ -39,14 +37,14 @@ const FormContents: NextPage<FormContentsProps> = ({ contents: staticContents })
           fetching();
         });
         fetching();
-      })
+      });
 
     return () => {
       // 登録したイベントは全てクリーンアップ
-      socket.off("connect")
-      socket.off("msg")
-    }
-  }, [])
+      socket.off('connect');
+      socket.off('msg');
+    };
+  }, []);
 
   return <>
     <Head>
